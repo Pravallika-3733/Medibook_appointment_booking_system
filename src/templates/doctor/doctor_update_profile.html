@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Doctor Profile Update
+{% endblock %}
+
+{% block nav %}
+<a href="{{ url_for('doctor_dashboard') }}" class="btn btn-primary fs-6 fw-medium">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+
+<p class="fs-2 fw-medium" style="text-align: center; color: white;"> Update Profile</p>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="container alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+    <div class="box container">
+        <form method="post">
+            {{ form.csrf_token }}
+            <div class="row">
+                <div class="col">
+                    <label for="first_name" class="form-label">First Name:</label>
+                    {{ form.first_name(size=20,class="form-control", placeholder="First Name") }}
+                </div>
+                <div class="col">
+                    <label for="last_name" class="form-label">Last Name:</label>
+                    {{ form.last_name(size=20,class="form-control", placeholder="Last Name") }}
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col">
+                    <label for="email" class="form-label">Email:</label>
+                    {{ form.email(size=100,class="form-control", placeholder="Email") }}
+                </div>
+                <div class="col">
+                    <label for="phone_number" class="form-label">Phone No:</label>
+                    {{ form.phone_number(size=20,class="form-control", placeholder="Phone No") }}
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col">
+                    <label for="speciality" class="form-label">Speciality:</label>
+                    {{ form.speciality(size=20,class="form-control", placeholder="Speciality") }}
+                </div>
+                <div class="col">
+                    <label for="address" class="form-label">Address:</label>
+                    {{ form.address(size=100,class="form-control", placeholder="First Name") }}
+                </div>
+            </div>
+            <div class="row" style="padding: 40px 30px 30px;">
+                {{ form.submit(class="btn btn-primary mb-3 fw-medium") }}
+            </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block style %}
+
+<style>
+    .box {
+        position: relative;
+        top: 200px;
+        left: 25%;
+        width: 800px;
+        height: 400px;
+        padding: 40px;
+        transform: translate(-50%, -50%);
+        background: rgba(5, 28, 48, 0.925);
+        box-sizing: border-box;
+        box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+        border-radius: 10px;
+    }
+
+
+    label {
+        color: white;
+    }
+</style>
+
+{% endblock %}

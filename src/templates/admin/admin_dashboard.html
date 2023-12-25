@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+        Admin Dashboard
+    </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body style="background-image: url('/static/images/bg2.jpg'); background-size: cover;">
+
+    <div class="d-flex justify-content-between" style="padding: 20px;">
+        <a class="fs-3 fw-medium" style="text-decoration: none; text-align: center; color: white">MediBook+</a>
+        <div>
+            <a href="{{ url_for('admin_logout') }}" class="btn btn-primary fs-6 fw-medium">Logout</a>
+            <a href="{{ url_for('admin_update') }}" class="btn btn-primary fs-6 fw-medium">Reset Password</a>
+        </div>
+    </div>
+
+    <P class="fs-1 fw-medium" style="text-align: center; color: white;"> MediBook Health System</P>
+    <p class="fs-2 fw-medium" style="text-align: center; color: white;">Welcome Admin</p>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="container alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}<br>
+    <p class="fs-3 fw-medium" style="text-align: center; color: white;">Patient Registration Requests</p>
+    <div class="table-responsive">
+        <table class="table table-hover table-dark w-auto" style="margin-left: auto; margin-right: auto;">
+            <thead>
+                <tr>
+                    <!-- Your Columns HERE -->
+                    <th scope="col">ID</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">E-Mail</th>
+                    <th scope="col">Phone No</th>
+                    <th scope="col">Date of Birth</th>
+                    <th scope="col">Address</th>
+                    <th scope="col" style="width: 200px; text-align: center;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Your rows inside the table HERE: -->
+                {% for newpatients in newpatients %}
+                <tr>
+                    <td>{{ newpatients.id }}</td>
+                    <td>{{ newpatients.first_name }}</td>
+                    <td>{{ newpatients.last_name }}</td>
+                    <td>{{ newpatients.email }}</td>
+                    <td>{{ newpatients.phone_number }}</td>
+                    <td>{{ newpatients.date_of_birth }}</td>
+                    <td>{{ newpatients.address }}</td>
+                    <td style="width: 200px;">
+                        <div class="d-inline-flex justify-content-evenly" style="width: 200px;">
+                            <form action="/admin/approve_patient/{{ newpatients.id }}" method="post">
+                                {{ form.csrf_token }}
+                                <button class="btn btn-outline btn-sm btn-success" type="submit">Approve</button>
+                            </form>
+                            <form action="/admin/delete_patient/{{ newpatients.id }}" method="post">
+                                {{ form.csrf_token }}
+                                <button class="btn btn-outline btn-sm btn-danger" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="fs-3 fw-medium" style="text-align: center; color: white;">Doctor Registration Requests</p>
+    <div class="table-responsive">
+        <table class="table table-hover table-dark w-auto" style="margin-left: auto; margin-right: auto;">
+            <thead>
+                <tr>
+                    <!-- Your Columns HERE -->
+                    <th scope="col">ID</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Doctor ID</th>
+                    <th scope="col">Speciality</th>
+                    <th scope="col">E-Mail</th>
+                    <th scope="col">Phone No</th>
+                    <th scope="col">Date of Birth</th>
+                    <th scope="col">Address</th>
+                    <th scope="col" style="width: 200px; text-align: center;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Your rows inside the table HERE: -->
+                {% for newdoctors in newdoctors %}
+                <tr>
+                    <td>{{ newdoctors.id }}</td>
+                    <td>{{ newdoctors.first_name }}</td>
+                    <td>{{ newdoctors.last_name }}</td>
+                    <td>{{ newdoctors.doctor_id }}</td>
+                    <td>{{ newdoctors.speciality }}</td>
+                    <td>{{ newdoctors.email }}</td>
+                    <td>{{ newdoctors.phone_number }}</td>
+                    <td>{{ newdoctors.date_of_birth }}</td>
+                    <td>{{ newdoctors.address }}</td>
+                    <td style="width: 200px;">
+                        <div class="d-inline-flex justify-content-evenly" style="width: 200px;">
+                            <form action="/admin/approve_doctor/{{ newdoctors.id }}" method="post">
+                                {{ form.csrf_token }}
+                                <button class="btn btn-outline btn-sm btn-success" type="submit">Approve</button>
+                            </form>
+                            <form action="/admin/delete_doctor/{{ newdoctors.id }}" method="post">
+                                {{ form.csrf_token }}
+                                <button class="btn btn-outline btn-sm btn-danger" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="fs-3 fw-medium" style="text-align: center; color: white;">Registrered Patients</p>
+    <div class="table-responsive">
+        <table class="table table-hover table-dark w-auto" style="margin-left: auto; margin-right: auto;">
+            <thead>
+                <tr>
+                    <!-- Your Columns HERE -->
+                    <th scope="col">ID</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">E-Mail</th>
+                    <th scope="col">Phone No</th>
+                    <th scope="col">Date of Birth</th>
+                    <th scope="col">Address</th>
+                    <th scope="col" style="width: 200px; text-align: center;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Your rows inside the table HERE: -->
+                {% for patients in patients %}
+                <tr>
+                    <td>{{ patients.id }}</td>
+                    <td>{{ patients.first_name }}</td>
+                    <td>{{ patients.last_name }}</td>
+                    <td>{{ patients.email }}</td>
+                    <td>{{ patients.phone_number }}</td>
+                    <td>{{ patients.date_of_birth }}</td>
+                    <td>{{ patients.address }}</td>
+                    <td style="width: 200px;">
+                        <div class="d-inline-flex justify-content-evenly" style="width: 200px;">
+                            <form action="/admin/delete/patient/{{ patients.id }}" method="post">
+                                {{ form.csrf_token }}
+                                <button class="btn btn-outline btn-sm btn-danger" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="fs-3 fw-medium" style="text-align: center; color: white;">Registrered Doctors</p>
+    <div class="table-responsive">
+        <table class="table table-hover table-dark w-auto" style="margin-left: auto; margin-right: auto;">
+            <thead>
+                <tr>
+                    <!-- Your Columns HERE -->
+                    <th scope="col">ID</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Doctor ID</th>
+                    <th scope="col">Speciality</th>
+                    <th scope="col">E-Mail</th>
+                    <th scope="col">Phone No</th>
+                    <th scope="col">Date of Birth</th>
+                    <th scope="col">Address</th>
+                    <th scope="col" style="width: 200px; text-align: center;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Your rows inside the table HERE: -->
+                {% for doctors in doctors %}
+                <tr>
+                    <td>{{ doctors.id }}</td>
+                    <td>{{ doctors.first_name }}</td>
+                    <td>{{ doctors.last_name }}</td>
+                    <td>{{ doctors.doctor_id }}</td>
+                    <td>{{ doctors.speciality }}</td>
+                    <td>{{ doctors.email }}</td>
+                    <td>{{ doctors.phone_number }}</td>
+                    <td>{{ doctors.date_of_birth }}</td>
+                    <td>{{ doctors.address }}</td>
+                    <td style="width: 200px;">
+                        <div class="d-inline-flex justify-content-evenly" style="width: 200px;">
+                            <form action="/admin/delete/doctor/{{ doctors.id }}" method="post">
+                                {{ form.csrf_token }}
+                                <button class="btn btn-outline btn-sm btn-danger" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

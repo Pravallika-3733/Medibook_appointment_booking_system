@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Admin Login
+{% endblock %}
+
+{% block content %}
+<div>
+    <p class="fs-2 fw-medium" style="text-align: center; color: white;">Admin Login</p>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="container alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+    <div class="box container">
+        <form method="POST" action="">
+            {{ form.csrf_token }}
+            <div>
+                <label for="email" class="form-label">Email:</label><br>
+                {{ form.email(size=100,class="form-control", placeholder="Email") }}<br>
+            </div>
+            <div>
+                <label for="password" class="form-label">Password:</label>
+                {{ form.password(size=50,class="form-control", placeholder="Password") }}<br>
+            </div>
+            <div class="row" style="padding: 0px 20px;">
+                {{ form.submit(class="btn btn-primary mb-3 fw-medium") }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block style %}
+<style>
+    .box {
+        position: relative;
+        top: 180px;
+        left: 13%;
+        width: 400px;
+        height: 300px;
+        padding: 40px;
+        transform: translate(-50%, -50%);
+        background: rgba(5, 28, 48, 0.925);
+        box-sizing: border-box;
+        box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+        border-radius: 10px;
+    }
+
+    label {
+        color: white;
+    }
+</style>
+{% endblock %}
